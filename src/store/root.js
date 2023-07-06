@@ -8,7 +8,8 @@ export default {
   state: {
     isAPICallInProgress: false,
     generalErrors: [],
-    domains: [],
+    session: {},
+    incomingMails: [],
   },
   mutations: {
     [SET_API_CALL_IN_PROGRESS]: (state, status) => {
@@ -17,20 +18,22 @@ export default {
     [SET_GENERAL_ERRORS]: (state, error) => {
       state.generalErrors.push(error);
     },
-    fetchDomains(state, payload) {
-      state.domains.push([...payload]);
-      console.log("MUTATION payload", payload);
-      console.log("MUTATION state", state.domains);
+    fetchSession(state, payload) {
+      state.session = payload;
+    },
+    fetchIncomingMails(state, payload) {
+      state.incomingMails = [];
+      state.incomingMails = payload;
     },
   },
   actions: {
-    fetchDomains(context, payload) {
+    fetchSession(context, payload) {
+      console.log("FETCH", payload);
       return new Promise((resolve, reject) => {
         context
           .dispatch("api", payload)
           .then((result) => {
-            console.log("RESULT FETCHDOMAINS", { result });
-            context.commit("fetchDomains", result.data.domains);
+            context.commit("fetchSession", result.data.introduceSession);
             resolve();
           })
           .catch(() => {
@@ -38,13 +41,31 @@ export default {
           });
       });
     },
+
+    fetchIncomingMails(context, payload) {
+      console.log("FETCH", payload);
+      return new Promise((resolve, reject) => {
+        context
+          .dispatch("api", payload)
+          .then((result) => {
+            console.log("RESULT NO FETCH MAIL", result);
+
+            context.commit("fetchIncomingMails", result.data.session.mails);
+            resolve();
+          })
+          .catch(() => {
+            reject();
+          });
+      });
+    },
+
     /**
      * Dispatch AJAX calls
      * @param {String} entity e.g. `users`
      * @param {String} action method name eg. `getById`
      */
     async api({ commit }, { entity, action, payload = {}, query, params }) {
-      console.log("CHEGUEI NA API");
+      console.log("CHEGUEI NA API", { entity, action, payload });
 
       try {
         const response = await apiMethods[entity][action]({
@@ -52,7 +73,6 @@ export default {
           query,
           params,
         });
-        commit(SET_GENERAL_ERRORS, "OLHA O ERRINHO AQUI");
         console.log("resultado na api: ", { response });
         return response;
       } catch (error) {

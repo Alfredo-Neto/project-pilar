@@ -10,3 +10,8 @@ export const getStorage = (key, { format } = {}) => {
   const value = window.localStorage.getItem(key);
   return format ? parse(window.localStorage.getItem(key)) : value;
 };
+
+export const removeStorage = (key) => {
+  if (!window) return;
+  return parse(window.localStorage.removeItem(key));
+};
