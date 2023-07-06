@@ -1,4 +1,6 @@
-import axios from "axios";
+import VueApollo from "vue-apollo";
+import { HttpLink } from "apollo-link-http";
+import { ApolloClient, InMemoryCache, ApolloLink } from "@apollo/client";
 import { DEFAULT_API_URLS } from "./enum";
 import { getStorage } from "./localStorage";
 
@@ -13,30 +15,35 @@ const withBaseURLContext = () =>
     ? DEFAULT_API_URLS[process.env.NODE_ENV.toUpperCase()]
     : DEFAULT_API_URLS.development;
 
-const HTTPClient = axios.create({
-  baseURL: withBaseURLContext(),
+const httpLink = new HttpLink({
+  uri: withBaseURLContext(),
 });
 
-HTTPClient.interceptors.request.use(
-  (config) => {
-    store.commit(SET_API_CALL_IN_PROGRESS, true);
+const authMiddleware = new ApolloLink((operation, forward) => {
+  store.commit(SET_API_CALL_IN_PROGRESS, true);
 
-    const token = getStorage("token");
-    if (token) {
-      config.headers.common.Authorization = `Bearer ${token}`;
-    }
+  const token = getStorage("token");
+  if (token) {
+    operation.setContext({
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    });
+  }
 
-    return config;
-  },
-  (response) => Promise.reject(response)
-);
+  return forward(operation);
+});
 
-HTTPClient.interceptors.response.use(
-  (response) => {
-    store.commit(SET_API_CALL_IN_PROGRESS, false);
-    return response;
-  },
-  (error) => Promise.reject(error)
-);
+const link = ApolloLink.from([authMiddleware, httpLink]);
 
-export { HTTPClient };
+const apolloClient = new ApolloClient({
+  link,
+  cache: new InMemoryCache(),
+  connectToDevTools: true,
+});
+
+const apolloProvider = new VueApollo({
+  defaultClient: apolloClient,
+});
+
+export { apolloClient, apolloProvider };

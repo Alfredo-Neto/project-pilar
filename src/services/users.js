@@ -1,5 +1,14 @@
-import { HTTPClient } from "../utils/request";
+import { apolloProvider } from "@/utils/request.js";
 
 export default {
-  create: ({ payload }) => HTTPClient.post("/users", payload),
+  getDomains: ({ query, variables = {} }) => {
+    console.log("CHEGUEI NO SERVICE");
+
+    return apolloProvider.defaultClient.query({
+      query: query,
+      variables: {
+        ...variables,
+      },
+    });
+  },
 };
