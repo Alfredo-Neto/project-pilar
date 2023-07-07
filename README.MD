@@ -8,7 +8,7 @@ clique [aqui](https://github.com/Alfredo-Neto/src/assets/README.md) para ver o e
 ## Funcionalidades básicas
 
 - Gerar um e-mail temporário
-- Copiar o endereço gerado
+- Copiar o endereço gerado para a área de transferência
 - Visualizar a caixa de entrada desse email
 - Botão de receber notificações
 - Salvar dados no localStorage para não perdê-los ao recarregar a página
