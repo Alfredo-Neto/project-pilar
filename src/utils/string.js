@@ -5,8 +5,9 @@ export const trimString = (string) => {
   return string;
 };
 
-export const copyToClipboard = async (text) => {
-  return await navigator.clipboard
+export const copyToClipboard = (text) => {
+  console.log("TEXT", text);
+  navigator.clipboard
     .writeText(text)
     .then(() => {
       console.log("Text copied to clipboard");

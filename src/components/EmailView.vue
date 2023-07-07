@@ -1,5 +1,5 @@
 <template>
-  <div v-if="email" class="email-view w-75 ms-5 margin-t text-left">
+  <div v-if="email" class="email-view w-50 ms-5 margin-t text-left">
     <b-card>
       <b-card-header>
         <b-card-title class="fs-14">{{ email.headerSubject }}</b-card-title>

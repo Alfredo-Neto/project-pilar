@@ -6,17 +6,11 @@
       @click="selectEmail"
       class="email-item"
     >
-      <b-card-body>
-        <div class="d-flex flex-column align-items-center mw-75">
-          <b-card-text class="sender">{{
-            trimStr(email.headerSubject)
-          }}</b-card-text>
-          <b-card-text class="subject">{{
-            trimStr(email.fromAddr)
-          }}</b-card-text>
-          <b-card-text class="date">{{ trimStr(email.text) }}</b-card-text>
-        </div>
-      </b-card-body>
+      <div class="d-flex flex-column align-items-center mw-75">
+        <div class="sender">{{ trimStr(email.headerSubject) }}</div>
+        <div class="subject">{{ trimStr(email.fromAddr) }}</div>
+        <div class="date">{{ trimStr(email.text) }}</div>
+      </div>
     </b-card>
   </div>
 </template>
@@ -54,7 +48,6 @@ export default {
 }
 
 .email-item {
-  padding: 5px;
   cursor: pointer;
   width: 100%;
   height: 100%;
@@ -74,7 +67,7 @@ export default {
 }
 
 .date {
-  margin-top: 2px;
+  margin-top: -2px;
   font-size: 12px;
   color: #999;
 }
@@ -84,12 +77,12 @@ export default {
 }
 
 .email-item .subject {
-  margin-top: 2px;
+  margin-top: -2px;
   color: #555;
 }
 
 .email-item .date {
-  margin-top: 2px;
+  margin-top: -2px;
   font-size: 12px;
   color: #999;
 }

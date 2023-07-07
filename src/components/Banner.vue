@@ -6,23 +6,39 @@
           <div
             class="d-flex flex-column justify-content-center align-items-center minimum-width"
           >
+            <div v-if="hasCopied">
+              <b-alert variant="success" fade show>
+                Copiado para a área de transferência!
+              </b-alert>
+            </div>
             <div class="input-group mb-3">
+              <label for="email" class="me-2 d-flex align-items-center"
+                >Seu e-mail temporário</label
+              >
               <input
                 type="text"
                 class="form-control text-center"
                 readonly
+                id="email"
                 v-model="email"
                 placeholder="Recipient's username"
                 aria-label="Recipient's username"
                 aria-describedby="basic-addon2"
               />
               <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button">
+                <button
+                  class="btn btn-outline-secondary"
+                  type="button"
+                  @click="cpyToClipboard"
+                >
                   Copiar texto
                 </button>
               </div>
             </div>
-            <button class="mt-2 mb-2" @click="getSession">
+            <button
+              class="btn btn-outline-success mt-2 mb-2"
+              @click="getSession"
+            >
               Gerar novo e-mail
             </button>
           </div>
@@ -43,10 +59,11 @@
 <script>
 import gql from "graphql-tag";
 import { mapState, mapActions } from "vuex";
-import { getStorage, setStorage } from "@/utils/localStorage.js";
-// import { copyToClipboard } from "@/utils/string.js";
+import { getStorage, setStorage, removeStorage } from "@/utils/localStorage.js";
+import { copyToClipboard } from "@/utils/string.js";
 import EmailList from "./EmailList.vue";
 import EmailView from "./EmailView.vue";
+import { BAlert } from "bootstrap-vue";
 
 const CREATE_SESSION = gql`
   mutation {
@@ -96,12 +113,14 @@ export default {
       sessionId: null,
       email: null,
       selectedEmail: null,
+      hasCopied: false,
     };
   },
 
   components: {
     EmailList,
     EmailView,
+    BAlert,
   },
 
   computed: mapState({
@@ -114,11 +133,11 @@ export default {
       this.sessionId = getStorage("session_id");
       this.email = getStorage("email");
     } else {
-      // this.getSession();
+      this.getSession();
     }
 
     if (this.sessionId) {
-      this.startInterval(this.sessionId);
+      this.getIncomingMails(this.sessionId);
     }
   },
 
@@ -126,11 +145,9 @@ export default {
     sessionId() {
       if (this.sessionId) {
         this.startInterval(this.sessionId);
-        return;
-      }
-
-      if (getStorage("session_id")) {
-        this.getIncomingMails(getStorage("session_id"));
+      } else {
+        removeStorage("session_id");
+        this.stopInterval();
       }
     },
   },
@@ -189,6 +206,14 @@ export default {
 
     handleEmailSelect(email) {
       this.selectedEmail = email;
+    },
+
+    cpyToClipboard() {
+      this.hasCopied = true;
+      copyToClipboard(this.email);
+      setTimeout(() => {
+        this.hasCopied = false;
+      }, 3000);
     },
   },
 };
