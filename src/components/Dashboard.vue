@@ -143,6 +143,7 @@ export default {
   }),
 
   mounted() {
+    alert("opa");
     if (getStorage("permitNotification")) {
       this.permitNotification = getStorage("permitNotification");
       if (this.permitNotification == "true") this.permitNotification = true;
@@ -226,8 +227,10 @@ export default {
         .then(() => {
           this.sessionId = this.session.id;
           setStorage("session_id", this.sessionId);
+
           this.email = this.session.addresses[0].address;
           setStorage("email", this.email);
+
           this.isLoading = false;
         })
         .catch((error) => {
