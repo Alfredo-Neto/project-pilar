@@ -30,7 +30,7 @@ clique [aqui](https://github.com/Alfredo-Neto/src/assets/README.md) para ver o e
 
 ## Instalação local
 
-veja a [Live demo]()
+Veja a [Live demo]()
 
 1. Clone este repositório em sua máquina local:
 
