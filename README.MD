@@ -28,7 +28,9 @@ Enunciado do desafio: [Enunciado](https://github.com/Alfredo-Neto/src/assets/REA
 - Bootstrap/Bootstrap-vue
 - Deploy na Vercel
 
-## Instalação
+## Instalação local
+
+Live demo: [demo]()
 
 1. Clone este repositório em sua máquina local:
 
