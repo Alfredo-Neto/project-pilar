@@ -54,11 +54,6 @@ export default {
       });
     },
 
-    /**
-     * Dispatch AJAX calls
-     * @param {String} entity e.g. `users`
-     * @param {String} action method name eg. `getById`
-     */
     async api({ commit }, { entity, action, payload = {}, query, params }) {
       try {
         const response = await apiMethods[entity][action]({

@@ -185,9 +185,9 @@ export default {
   },
 
   watch: {
-    sessionId() {
-      if (this.sessionId) {
-        this.startInterval(this.sessionId);
+    sessionId(_, newSessionId) {
+      if (newSessionId) {
+        this.startInterval();
       } else {
         removeStorage("session_id");
         this.stopInterval();
@@ -210,9 +210,9 @@ export default {
       fetchIncomingMails: "fetchIncomingMails",
     }),
 
-    startInterval(sessionId) {
+    startInterval() {
       this.intervalId = setInterval(() => {
-        this.getIncomingMails(sessionId);
+        this.getIncomingMails(this.sessionId);
       }, 15000);
     },
 
@@ -237,6 +237,7 @@ export default {
     },
 
     getIncomingMails(sessionId = "") {
+      console.log("SESSION ID", sessionId);
       this.getMails.query = { id: `${sessionId}` };
 
       this.isLoading = true;
