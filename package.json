@@ -46,6 +46,9 @@
     "sass-loader": "^10.1.1",
     "webpack": "^4.46.0"
   },
+  "engines": {
+    "node": "16.x"
+  },
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
