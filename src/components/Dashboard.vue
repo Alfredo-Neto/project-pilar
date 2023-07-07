@@ -222,9 +222,11 @@ export default {
 
     getSession() {
       this.isLoading = true;
+      console.log("Before fetchSession:", this.sessionId);
       this.fetchSession(this.createSession)
         .then(() => {
           this.sessionId = this.session.id;
+          console.log("After fetchSession:", this.sessionId);
           setStorage("session_id", this.sessionId);
           this.email = this.session.addresses[0].address;
           setStorage("email", this.email);
