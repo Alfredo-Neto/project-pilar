@@ -22,13 +22,11 @@ export default {
       state.session = payload;
     },
     fetchIncomingMails(state, payload) {
-      state.incomingMails = [];
       state.incomingMails = payload;
     },
   },
   actions: {
     fetchSession(context, payload) {
-      console.log("FETCH", payload);
       return new Promise((resolve, reject) => {
         context
           .dispatch("api", payload)
@@ -43,13 +41,10 @@ export default {
     },
 
     fetchIncomingMails(context, payload) {
-      console.log("FETCH", payload);
       return new Promise((resolve, reject) => {
         context
           .dispatch("api", payload)
           .then((result) => {
-            console.log("RESULT NO FETCH MAIL", result);
-
             context.commit("fetchIncomingMails", result.data.session.mails);
             resolve();
           })
@@ -65,15 +60,12 @@ export default {
      * @param {String} action method name eg. `getById`
      */
     async api({ commit }, { entity, action, payload = {}, query, params }) {
-      console.log("CHEGUEI NA API", { entity, action, payload });
-
       try {
         const response = await apiMethods[entity][action]({
           payload,
           query,
           params,
         });
-        console.log("resultado na api: ", { response });
         return response;
       } catch (error) {
         const errorPayload = {
