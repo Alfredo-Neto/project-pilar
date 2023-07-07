@@ -39,23 +39,23 @@ git clone https://github.com/Alfredo-Neto/project-pilar.git
 
 ```shell
 cd project-pilar
-
+```
 3. Instale as dependencias do projeto
 
 ```shell
 npm install
-
+```
 4. Rode os testes
 
 ```shell
 npm t
-
+```
 5. Rode o servidor
 
 ```shell
 npm run serve
-
+```
 6. Acesse: http://localhost:8080
-
+```
 >  This is a challenge by [Coodesh](https://coodesh.com/)
 
