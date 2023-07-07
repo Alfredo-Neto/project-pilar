@@ -47,7 +47,10 @@
               Gerar novo e-mail
             </button>
           </div>
-          <div class="d-flex minimum-width">
+
+          <PageLoader :isLoading="isLoading" />
+
+          <div v-if="!isLoading" class="d-flex minimum-width">
             <EmailList
               :emails="incomingMails"
               :selectedEmail="selectedEmail"
@@ -68,6 +71,7 @@ import { getStorage, setStorage, removeStorage } from "@/utils/localStorage.js";
 import { copyToClipboard } from "@/utils/string.js";
 import EmailList from "./EmailList.vue";
 import EmailView from "./EmailView.vue";
+import PageLoader from "./PageLoader.vue";
 import { BAlert } from "bootstrap-vue";
 import Swal from "sweetalert2";
 
@@ -130,6 +134,7 @@ export default {
     EmailList,
     EmailView,
     BAlert,
+    PageLoader,
   },
 
   computed: mapState({
