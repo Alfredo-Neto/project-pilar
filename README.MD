@@ -3,7 +3,7 @@
 Este é o projeto que fiz para a vaga de Frontend Engineer Pleno na Pilar.
 O desafio consiste em consumir o serviço da DropMail.me, que é uma api que gera e-mails temporários, a partir de um id de sessão.
 
-Enunciado do desafio: https://github.com/Alfredo-Neto/src/assets/README.md
+Enunciado do desafio: [Enunciado](https://github.com/Alfredo-Neto/src/assets/README.md)
 
 ## Funcionalidades básicas
 
