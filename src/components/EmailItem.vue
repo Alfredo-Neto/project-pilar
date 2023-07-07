@@ -1,6 +1,6 @@
 <template>
   <div class="email-item-container">
-    <b-card
+    <div
       role="button"
       :class="{ selected: selected }"
       @click="selectEmail"
@@ -11,7 +11,7 @@
         <div class="subject">{{ trimStr(email.fromAddr) }}</div>
         <div class="date">{{ trimStr(email.text) }}</div>
       </div>
-    </b-card>
+    </div>
   </div>
 </template>
 
@@ -51,6 +51,8 @@ export default {
   cursor: pointer;
   width: 100%;
   height: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
 }
 
 .email-item.selected {

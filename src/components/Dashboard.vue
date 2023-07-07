@@ -11,6 +11,11 @@
                 Copiado para a área de transferência!
               </b-alert>
             </div>
+            <div v-if="!!permitNotification && haveNewMails && !selectedEmail">
+              <b-alert variant="success" dismissible fade show>
+                Chegou um novo e-mail para você!
+              </b-alert>
+            </div>
             <div class="input-group mb-3">
               <label for="email" class="me-2 d-flex align-items-center"
                 >Seu e-mail temporário</label
@@ -31,7 +36,7 @@
                   type="button"
                   @click="cpyToClipboard"
                 >
-                  Copiar texto
+                  Copiar e-mail
                 </button>
               </div>
             </div>
@@ -64,6 +69,7 @@ import { copyToClipboard } from "@/utils/string.js";
 import EmailList from "./EmailList.vue";
 import EmailView from "./EmailView.vue";
 import { BAlert } from "bootstrap-vue";
+import Swal from "sweetalert2";
 
 const CREATE_SESSION = gql`
   mutation {
@@ -113,6 +119,9 @@ export default {
       sessionId: null,
       email: null,
       selectedEmail: null,
+      previousEmailsLength: null,
+      haveNewMails: false,
+      permitNotification: false,
       hasCopied: false,
     };
   },
@@ -129,6 +138,35 @@ export default {
   }),
 
   mounted() {
+    if (getStorage("permitNotification")) {
+      this.permitNotification = getStorage("permitNotification");
+      if (this.permitNotification == "true") this.permitNotification = true;
+      if (this.permitNotification == "false") this.permitNotification = false;
+    }
+    if (!this.permitNotification) {
+      Swal.fire({
+        title: "Você deseja receber notificações de novos e-mails?",
+        icon: "success",
+        confirmButtonText: "Sim",
+        showCancelButton: true,
+        cancelButtonText: "Dispensar",
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire(
+            "Você receberá uma notificação em tela sempre que um novo e-mail chegar"
+          ).then(() => {
+            setStorage("permitNotification", true);
+            this.permitNotification = true;
+          });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          setStorage("permitNotification", false);
+          this.permitNotification = false;
+        }
+      });
+    }
+
     if (getStorage("session_id") && getStorage("email")) {
       this.sessionId = getStorage("session_id");
       this.email = getStorage("email");
@@ -149,6 +187,11 @@ export default {
         removeStorage("session_id");
         this.stopInterval();
       }
+    },
+
+    incomingMails(newMails, oldMails) {
+      this.haveNewMails = newMails.length > oldMails.length;
+      this.previousEmailsLength = newMails.length;
     },
   },
 

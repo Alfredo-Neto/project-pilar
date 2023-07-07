@@ -6,7 +6,6 @@ export const trimString = (string) => {
 };
 
 export const copyToClipboard = (text) => {
-  console.log("TEXT", text);
   navigator.clipboard
     .writeText(text)
     .then(() => {
