@@ -34,7 +34,7 @@ Enunciado do desafio: [Enunciado](https://github.com/Alfredo-Neto/src/assets/REA
 
 ```shell
 git clone https://github.com/Alfredo-Neto/project-pilar.git
-
+```
 2. Acesse o diretório do projeto:
 
 ```shell
