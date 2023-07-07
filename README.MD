@@ -56,6 +56,6 @@ npm t
 npm run serve
 ```
 6. Acesse: http://localhost:8080
-```
+
 >  This is a challenge by [Coodesh](https://coodesh.com/)
 
