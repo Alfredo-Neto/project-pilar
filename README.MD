@@ -10,7 +10,7 @@ clique [aqui](https://github.com/Alfredo-Neto/src/assets/README.md) para ver o e
 - Gerar um e-mail temporário
 - Copiar o endereço gerado para a área de transferência
 - Visualizar a caixa de entrada desse email
-- Botão de receber notificações
+- Botão de ativar notificações
 - Salvar dados no localStorage para não perdê-los ao recarregar a página
 
 ## Funcionalidades extras
