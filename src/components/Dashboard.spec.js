@@ -42,6 +42,7 @@ describe("Dashboard", () => {
       "haveNewMails",
       "permitNotification",
       "hasCopied",
+      "emailSelected"
     ];
     const received = Object.keys(wrapper.vm.$data);
     expect(received).toEqual(expected);
@@ -68,6 +69,7 @@ describe("Dashboard", () => {
       haveNewMails: true,
       permitNotification: false,
       hasCopied: false,
+      emailSelected: false
     };
 
     setData(wrapper, initialData);
@@ -83,6 +85,7 @@ describe("Dashboard", () => {
       haveNewMails,
       permitNotification,
       hasCopied,
+      emailSelected
     } = initialData;
 
     expect(isLoading).toBe(false);
@@ -94,6 +97,7 @@ describe("Dashboard", () => {
     expect(haveNewMails).toBe(true);
     expect(permitNotification).toBe(false);
     expect(hasCopied).toBe(false);
+    expect(emailSelected).toBe(false);
   });
 
   test("getSession chama fetchSession com o payload correto", async () => {
@@ -173,6 +177,7 @@ describe("Dashboard", () => {
       haveNewMails: true,
       permitNotification: false,
       hasCopied: false,
+      emailSelected: false
     };
 
     wrapper.setData({ ...initialData });
