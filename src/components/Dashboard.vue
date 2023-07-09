@@ -11,7 +11,7 @@
                 Copiado para a área de transferência!
               </b-alert>
             </div>
-            <div v-if="!!permitNotification && haveNewMails && !selectedEmail">
+            <div v-if="!!permitNotification && haveNewMails && !emailSelected">
               <b-alert variant="success" dismissible fade show>
                 Chegou um novo e-mail para você!
               </b-alert>
