@@ -18,20 +18,20 @@ export default {
     [SET_GENERAL_ERRORS]: (state, error) => {
       state.generalErrors.push(error);
     },
-    fetchSession(state, payload) {
+    setSession(state, payload) {
       state.session = payload;
     },
-    fetchIncomingMails(state, payload) {
+    setIncomingMails(state, payload) {
       state.incomingMails = payload;
     },
   },
   actions: {
-    fetchSession(context, payload) {
+    async fetchSession(context, payload) {
       return new Promise((resolve, reject) => {
         context
           .dispatch("api", payload)
           .then((result) => {
-            context.commit("fetchSession", result.data.introduceSession);
+            context.commit("setSession", result.data.introduceSession);
             resolve();
           })
           .catch(() => {
@@ -40,12 +40,12 @@ export default {
       });
     },
 
-    fetchIncomingMails(context, payload) {
+    async fetchIncomingMails(context, payload) {
       return new Promise((resolve, reject) => {
         context
           .dispatch("api", payload)
           .then((result) => {
-            context.commit("fetchIncomingMails", result.data.session.mails);
+            context.commit("setIncomingMails", result.data.session.mails);
             resolve();
           })
           .catch(() => {

@@ -7,8 +7,8 @@
       class="email-item"
     >
       <div class="d-flex flex-column align-items-center mw-75">
-        <div class="sender">{{ trimStr(email.headerSubject) }}</div>
-        <div class="subject">{{ trimStr(email.fromAddr) }}</div>
+        <div class="header-subject">{{ trimStr(email.headerSubject) }}</div>
+        <div class="from-addr">{{ trimStr(email.fromAddr) }}</div>
         <div class="date">{{ trimStr(email.text) }}</div>
       </div>
     </div>
@@ -59,11 +59,11 @@ export default {
   background-color: #e1f2ff;
 }
 
-.sender {
+.header-subject {
   font-weight: bold;
 }
 
-.subject {
+.from-addr {
   margin-top: 2px;
   color: #555;
 }
@@ -74,11 +74,11 @@ export default {
   color: #999;
 }
 
-.email-item .sender {
+.email-item .header-subject {
   font-weight: bold;
 }
 
-.email-item .subject {
+.email-item .from-addr {
   margin-top: -2px;
   color: #555;
 }

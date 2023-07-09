@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="mt-5 d-flex justify-content-center align-items-center">
-      <b-card class="mw-100 w-75 p-3">
+      <b-card class="mw-100 w-75 p-3" style="height: 650px">
         <b-card-body>
           <div
             class="d-flex flex-column justify-content-center align-items-center minimum-width"
@@ -50,13 +50,24 @@
 
           <PageLoader :isLoading="isLoading" />
 
-          <div v-if="!isLoading" class="d-flex minimum-width">
-            <EmailList
-              :emails="incomingMails"
-              :selectedEmail="selectedEmail"
-              @select="handleEmailSelect"
-            />
-            <EmailView v-if="selectedEmail" :email="selectedEmail" />
+          <div v-if="!isLoading" class="d-flex">
+            <div>
+              <EmailList
+                class="w-100 overflow-y-auto"
+                :emails="incomingMails"
+                :selectedEmail="selectedEmail"
+                @select="handleEmailSelect"
+              />
+            </div>
+            <div
+              class="container overflow-y-auto position-relative"
+              style="height: 450px"
+            >
+              <EmailView
+                v-if="selectedEmail && emailSelected"
+                :email="selectedEmail"
+              />
+            </div>
           </div>
         </b-card-body>
       </b-card>
@@ -127,6 +138,7 @@ export default {
       haveNewMails: false,
       permitNotification: false,
       hasCopied: false,
+      emailSelected: false,
     };
   },
 
@@ -187,16 +199,24 @@ export default {
   watch: {
     sessionId() {
       if (this.sessionId) {
-        this.startInterval(this.sessionId);
+        this.startInterval();
       } else {
-        removeStorage("session_id");
-        this.stopInterval();
+        this.getSession();
       }
     },
 
     incomingMails(newMails, oldMails) {
       this.haveNewMails = newMails.length > oldMails.length;
       this.previousEmailsLength = newMails.length;
+
+      const now = new Date();
+      const expiresAt = new Date(this.session.expiresAt);
+
+      if (now.getTime() === expiresAt.getTime()) {
+        removeStorage("session_id");
+        removeStorage("email");
+        this.stopInterval();
+      }
     },
   },
 
@@ -210,9 +230,9 @@ export default {
       fetchIncomingMails: "fetchIncomingMails",
     }),
 
-    startInterval(sessionId) {
+    startInterval() {
       this.intervalId = setInterval(() => {
-        this.getIncomingMails(sessionId);
+        this.getIncomingMails(this.sessionId);
       }, 15000);
     },
 
@@ -222,32 +242,34 @@ export default {
 
     getSession() {
       this.isLoading = true;
-      console.log("Before fetchSession:", this.sessionId);
       this.fetchSession(this.createSession)
         .then(() => {
           this.sessionId = this.session.id;
-          console.log("After fetchSession:", this.sessionId);
           setStorage("session_id", this.sessionId);
 
           this.email = this.session.addresses[0].address;
           setStorage("email", this.email);
 
+          this.getIncomingMails(this.sessionId);
+
+          this.emailSelected = false;
           this.isLoading = false;
         })
         .catch((error) => {
           console.log(error);
+          this.emailSelected = false;
           this.isLoading = false;
         });
     },
 
     getIncomingMails(sessionId = "") {
+      this.$store.commit("setIncomingMails", []);
+
       this.getMails.query = { id: `${sessionId}` };
 
       this.isLoading = true;
       this.fetchIncomingMails(this.getMails)
         .then(() => {
-          this.items = [];
-          this.items.push(this.incomingMails);
           this.isLoading = false;
         })
         .catch((error) => {
@@ -258,6 +280,7 @@ export default {
 
     handleEmailSelect(email) {
       this.selectedEmail = email;
+      this.emailSelected = true;
     },
 
     cpyToClipboard() {
