@@ -212,7 +212,7 @@ export default {
       const now = new Date();
       const expiresAt = new Date(this.session.expiresAt);
 
-      if (now.getTime() === expiresAt.getTime()) {
+      if (now.getTime() >= expiresAt.getTime()) {
         removeStorage("session_id");
         removeStorage("email");
         this.stopInterval();
