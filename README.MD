@@ -30,7 +30,7 @@ Clique [aqui](https://github.com/Alfredo-Neto/project-pilar/blob/main/src/assets
 
 ## Instalação local
 
-Clique e veja a [Live demo](https://project-pilar-k87ack5go-alfredo-neto.vercel.app/?vercelToolbarCode=1vNbNcJP2WMpIiC)
+Clique e veja a [Live demo](https://project-pilar-cdqdqvhyb-alfredo-neto.vercel.app)
 
 1. Clone este repositório em sua máquina local:
 
