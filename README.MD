@@ -3,7 +3,7 @@
 Este é o projeto que fiz para a vaga de Frontend Engineer Pleno na Pilar.
 O desafio consiste em consumir o serviço da DropMail.me, que é uma api que gera e-mails temporários, a partir de um id de sessão.
 
-Clique [aqui](https://github.com/Alfredo-Neto/src/assets/README.md) para ver o enunciado do desafio
+Clique [aqui](https://github.com/Alfredo-Neto/project-pilar/blob/main/src/assets/README.md) para ver o enunciado do desafio
 
 ## Funcionalidades básicas
 
@@ -30,7 +30,7 @@ Clique [aqui](https://github.com/Alfredo-Neto/src/assets/README.md) para ver o e
 
 ## Instalação local
 
-Veja a [Live demo](www.google.com)
+Clique e veja a [Live demo](https://project-pilar-k87ack5go-alfredo-neto.vercel.app/?vercelToolbarCode=1vNbNcJP2WMpIiC)
 
 1. Clone este repositório em sua máquina local:
 
@@ -52,6 +52,8 @@ npm install
 ```shell
 npm t
 ```
+Obs: Se seu node não estiver na versão LTS e você receber este erro: node: --openssl-legacy-provider is not allowed in NODE_OPTIONS ao tentar rodar o projeto, clique [aqui](https://stackoverflow.com/questions/72866798/node-openssl-legacy-provider-is-not-allowed-in-node-options) e siga as instruções da primeira resposta.
+
 5. Rode o servidor
 
 ```shell
