@@ -134,7 +134,6 @@ export default {
       sessionId: null,
       email: null,
       selectedEmail: null,
-      previousEmailsLength: null,
       haveNewMails: false,
       permitNotification: false,
       hasCopied: false,
@@ -184,9 +183,10 @@ export default {
       });
     }
 
-    if (getStorage("session_id") && getStorage("email")) {
-      this.sessionId = getStorage("session_id");
-      this.email = getStorage("email");
+    if (getStorage("email_info")) {
+      const emailInfo = getStorage("email_info", { format: true });
+      this.sessionId = emailInfo.sessionId;
+      this.email = emailInfo.email;
     } else {
       this.getSession();
     }
@@ -207,14 +207,12 @@ export default {
 
     incomingMails(newMails, oldMails) {
       this.haveNewMails = newMails.length > oldMails.length;
-      this.previousEmailsLength = newMails.length;
 
       const now = new Date();
       const expiresAt = new Date(this.session.expiresAt);
 
       if (now.getTime() >= expiresAt.getTime()) {
-        removeStorage("session_id");
-        removeStorage("email");
+        removeStorage("email_info");
         this.stopInterval();
       }
     },
@@ -245,12 +243,18 @@ export default {
       this.fetchSession(this.createSession)
         .then(() => {
           this.sessionId = this.session.id;
-          setStorage("session_id", this.sessionId);
-
           this.email = this.session.addresses[0].address;
-          setStorage("email", this.email);
 
           this.getIncomingMails(this.sessionId);
+
+          setStorage(
+            "email_info",
+            {
+              email: this.email,
+              sessionId: this.sessionId,
+            },
+            { format: true }
+          );
 
           this.emailSelected = false;
           this.isLoading = false;
